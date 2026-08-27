@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{C36FBF47-F4D2-4AA1-8A53-F535D8C97087}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{2795E93A-E2FF-4AB7-8E3D-500AC12D25F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{962BC515-2629-426D-B2B8-FCE02F17E1A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{5444AED1-0D65-4023-A673-C8969B3E9BE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Services.CouponAPI", "Mango.Services.CouponAPI\Mango.Services.CouponAPI.csproj", "{B84020F5-7AF7-4CB5-B0B3-5FB47E945349}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mango.Web", "Mango.Web\Mango.Web.csproj", "{809531AC-4FB9-4A48-B7E0-A17600646C17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B84020F5-7AF7-4CB5-B0B3-5FB47E945349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B84020F5-7AF7-4CB5-B0B3-5FB47E945349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B84020F5-7AF7-4CB5-B0B3-5FB47E945349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B84020F5-7AF7-4CB5-B0B3-5FB47E945349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{809531AC-4FB9-4A48-B7E0-A17600646C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{809531AC-4FB9-4A48-B7E0-A17600646C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{809531AC-4FB9-4A48-B7E0-A17600646C17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{809531AC-4FB9-4A48-B7E0-A17600646C17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B84020F5-7AF7-4CB5-B0B3-5FB47E945349} = {5444AED1-0D65-4023-A673-C8969B3E9BE9}
+		{809531AC-4FB9-4A48-B7E0-A17600646C17} = {C36FBF47-F4D2-4AA1-8A53-F535D8C97087}
+	EndGlobalSection
+EndGlobal
