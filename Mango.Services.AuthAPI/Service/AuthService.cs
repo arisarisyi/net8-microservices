@@ -80,10 +80,11 @@ public class AuthService : IAuthService
             PhoneNumber = user.PhoneNumber,
         };
 
+        var roles = await _userManager.GetRolesAsync(user);
         LoginResponseDto loginResponseDto = new LoginResponseDto()
         {
             User = userDto,
-            Token = _jwtTokenGenerator.GenerateToken(user)
+            Token = _jwtTokenGenerator.GenerateToken(user, roles)
         };
         
         return loginResponseDto;
