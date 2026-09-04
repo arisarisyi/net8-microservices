@@ -5,6 +5,7 @@ using Mango.Services.CouponAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,30 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(name: "Bearer",securityScheme:new OpenApiSecurityScheme
+    {
+        Description = "Please insert JWT into field",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+    });
+    
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+        new OpenApiSecurityScheme
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = JwtBearerDefaults.AuthenticationScheme
+            }
+        }, new string[] { }
+        }
+    });
+});
 
 var secret = builder.Configuration.GetValue<string>("ApiSettings:JwtOptions:Secret");
 var issuer = builder.Configuration.GetValue<string>("ApiSettings:JwtOptions:Issuer");
@@ -42,6 +66,7 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuerSigningKey = true,
+        ValidIssuer = issuer,
         ValidAudience = audience,
     };
 });
