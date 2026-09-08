@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mango.Services.ProductAPI.Models;
 
-public class Product
+public class Product 
 {
         [Key] 
         public int ProductId { get; set; }
