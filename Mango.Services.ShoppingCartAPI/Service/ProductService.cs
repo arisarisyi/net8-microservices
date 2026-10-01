@@ -9,31 +9,20 @@ namespace Mango.Services.ShoppingCartAPI.Service;
 public class ProductService : IProductService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    
-    public ProductService(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+
+    public ProductService(IHttpClientFactory clientFactory)
     {
-        _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
+        _httpClientFactory = clientFactory;
     }
-    
     public async Task<IEnumerable<ProductDto>> GetProducts()
     {
         var client = _httpClientFactory.CreateClient("Product");
-        //forward the JWT from the incoming request to ProductAPI
-        var token = _httpContextAccessor.HttpContext?.Request.Headers.Authorization.ToString();
-        if (!string.IsNullOrEmpty(token))
-        {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", token.Replace("Bearer ", ""));
-        }
-        var response = await client.GetAsync("api/product");
+        var response = await client.GetAsync($"/api/product");
         var apiContet = await response.Content.ReadAsStringAsync();
         var resp = JsonConvert.DeserializeObject<ResponseDto>(apiContet);
-        if (resp?.IsSuccess == true)
+        if (resp.IsSuccess)
         {
-            return JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(Convert.ToString(resp.Result)) 
-                   ?? new List<ProductDto>();
+            return JsonConvert.DeserializeObject<IEnumerable<ProductDto>>(Convert.ToString(resp.Result));
         }
         return new List<ProductDto>();
     }

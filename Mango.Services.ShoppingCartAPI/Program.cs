@@ -42,8 +42,11 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICouponServices, CouponService>();
 builder.Services.AddHttpClient("Product", u=>u.BaseAddress 
     = new Uri(builder.Configuration["ServiceUrls:ProductAPI"]));
+builder.Services.AddHttpClient("Coupon", u=>u.BaseAddress 
+    = new Uri(builder.Configuration["ServiceUrls:CouponAPI"]));
 builder.AddAppAuthentication();
 builder.Services.AddAuthorization();
 
