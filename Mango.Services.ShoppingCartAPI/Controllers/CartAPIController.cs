@@ -1,4 +1,5 @@
 using AutoMapper;
+using Mango.MessageBus;
 using Mango.Services.ShoppingCartAPI.Data;
 using Mango.Services.ShoppingCartAPI.Models;
 using Mango.Services.ShoppingCartAPI.Models.Dto;
@@ -21,14 +22,19 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         private readonly IMapper _mapper;
         private IProductService _productService;
         private ICouponServices _couponService;
+        private readonly IMessageBus _messageBus;
+        private IConfiguration _configuration;
         
-        public CartAPIController(AppDbContext context,IProductService productService, IMapper mapper, ICouponServices couponService)
+        public CartAPIController(AppDbContext context,IProductService productService, IMapper mapper, 
+            ICouponServices couponService, IMessageBus messageBus, IConfiguration configuration)
         {
             _productService = productService;
             _context = context;
             _mapper = mapper;
             _couponService = couponService;
             _response = new ResponseDto();
+            _messageBus = messageBus;
+            _configuration = configuration;
         }
         
         [HttpGet("GetCart/{userId}")]
@@ -136,6 +142,23 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                 cartFromDb.CouponCode = cartDto.CartHeader.CouponCode;
                 _context.CartHeaders.Update(cartFromDb);
                 await _context.SaveChangesAsync();
+                _response.Result = true;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.Message = ex.ToString();
+            }
+            return _response;
+        }
+        
+        [HttpPost("EmailCartRequest")]
+        public async Task<object> EmailCartRequest([FromBody] CartDto cartDto)
+        {
+            try
+            {
+                await _messageBus.PublishMessage(
+                    cartDto, _configuration.GetValue<string>("TopicAndQueueNames:EmailShoppingCart"));
                 _response.Result = true;
             }
             catch (Exception ex)
